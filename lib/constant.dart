@@ -6,3 +6,8 @@ CollectionReference tripsCollection = FirebaseFirestore.instance.
 collection('trips');
 
 String name , phone  , image , userId , userEmail ;
+
+
+
+
+///////////////dfsdfg
