@@ -188,15 +188,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
           ),
 
-          // ListTileDrawer(
-          //   icon: Icons.reorder_outlined,
-          //   listTileName: 'Trip Order',
-          //   onPressed: () async{
-          //
-          //     Navigator.popAndPushNamed(context, TripOrders.id);
-          //
-          //   }         ,
-          // ),
+          ListTileDrawer(
+            icon: Icons.reorder_outlined,
+            listTileName: 'Trip Order',
+            onPressed: () async{
+
+              Navigator.popAndPushNamed(context, profile.id);
+
+            }         ,
+          ),
           ListTileDrawer(
             icon: Icons.logout,
             listTileName: 'Log out',
