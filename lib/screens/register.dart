@@ -111,6 +111,8 @@ class _RegisterState extends State<Register> {
               ),
 
               TextFormField(
+                keyboardType: TextInputType.name,
+
                 controller: nameController,
                 decoration: InputDecoration(
                   fillColor: Colors.grey[100],
@@ -127,6 +129,8 @@ class _RegisterState extends State<Register> {
                 height: 15,
               ),
               TextFormField(
+                keyboardType: TextInputType.emailAddress,
+
                 controller: emailController,
                 decoration: InputDecoration(
                   fillColor: Colors.grey[100],
@@ -143,6 +147,8 @@ class _RegisterState extends State<Register> {
                 height: 10,
               ),
               TextFormField(
+                keyboardType: TextInputType.phone,
+
                 controller: phoneController,
                 decoration: InputDecoration(
                   fillColor: Colors.grey[100],
@@ -160,6 +166,8 @@ class _RegisterState extends State<Register> {
               ),
 
               TextFormField(
+                keyboardType: TextInputType.number,
+
                 controller: nationalIdController,
                 decoration: InputDecoration(
                   fillColor: Colors.grey[100],
@@ -175,6 +183,8 @@ class _RegisterState extends State<Register> {
                 height: 10,
               ),
               TextFormField(
+                keyboardType: TextInputType.visiblePassword,
+
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(

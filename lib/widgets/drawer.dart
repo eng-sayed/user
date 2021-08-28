@@ -5,6 +5,8 @@ import 'package:multi_image_picker2/multi_image_picker2.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:tip_trip/constant.dart';
 import 'package:tip_trip/screens/log_in.dart';
+import 'package:tip_trip/screens/orders.dart';
+import 'package:tip_trip/screens/profile.dart';
 import 'package:tip_trip/widgets/list_tile_drawer.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -13,88 +15,88 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-  List<Asset> personalImage = <Asset>[];
-  String PersonalImageUrl;
-  Future<void> loadAssets1() async {
-    List<Asset> resultList = <Asset>[];
-    String error = 'No Error Detected';
-
-    try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: 1,
-        enableCamera: true,
-        selectedAssets: personalImage,
-        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
-        materialOptions: MaterialOptions(
-          actionBarColor: "#2196F3",
-          actionBarTitle: "Upload image",
-          allViewTitle: "Choose Your Image",
-          useDetailsView: false,
-          selectCircleStrokeColor: "#000000",
-        ),
-      );
-    } on Exception catch (e) {
-      error = e.toString();
-    }
-    if (!mounted) return;
-    setState(() {
-      personalImage = resultList;
-    });
-
-    for (var imageFile in personalImage) {
-      await postImage(imageFile).then((downloadUrl) {
-        PersonalImageUrl = downloadUrl.toString();
-      }).catchError((err) {
-        print(err);
-      });
-    }
-    // if(image.startsWith('gs://') || image.startsWith('http')){}
-    try {
-      await firebase_storage.FirebaseStorage.instance
-          .refFromURL(image)
-          .delete();
-    } catch (e) {
-      print('///////////////////////////////${e.toString()}');
-      if (e.toString() == '[firebase_storage/object-not-found]') {
-        for (var imageFile in personalImage) {
-          await postImage(imageFile).then((downloadUrl) {
-            PersonalImageUrl = downloadUrl.toString();
-          }).catchError((err) {
-            print(err);
-          });
-        }
-      }
-
-      await usersCollection.doc(userId).update({
-        'image': PersonalImageUrl,
-      }).then((value) {
-        setState(() {
-          personalImage = [];
-        });
-      });
-    }
-
-    await usersCollection.doc(userId).update({
-      'image': PersonalImageUrl,
-    }).then((value) {
-      setState(() {
-        personalImage = [];
-      });
-    });
-  }
-
-  Future<dynamic> postImage(Asset imageFile) async {
-    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    firebase_storage.Reference ref =
-        firebase_storage.FirebaseStorage.instance.ref().child(fileName);
-
-    UploadTask uploadTask =
-        ref.putData((await imageFile.getByteData()).buffer.asUint8List());
-    TaskSnapshot storageTaskSnapshot = await uploadTask;
-    return storageTaskSnapshot.ref.getDownloadURL();
-  }
-
-  final password = TextEditingController();
+  // List<Asset> personalImage = <Asset>[];
+  // String PersonalImageUrl;
+  // Future<void> loadAssets1() async {
+  //   List<Asset> resultList = <Asset>[];
+  //   String error = 'No Error Detected';
+  //
+  //   try {
+  //     resultList = await MultiImagePicker.pickImages(
+  //       maxImages: 1,
+  //       enableCamera: true,
+  //       selectedAssets: personalImage,
+  //       cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
+  //       materialOptions: MaterialOptions(
+  //         actionBarColor: "#2196F3",
+  //         actionBarTitle: "Upload image",
+  //         allViewTitle: "Choose Your Image",
+  //         useDetailsView: false,
+  //         selectCircleStrokeColor: "#000000",
+  //       ),
+  //     );
+  //   } on Exception catch (e) {
+  //     error = e.toString();
+  //   }
+  //   if (!mounted) return;
+  //   setState(() {
+  //     personalImage = resultList;
+  //   });
+  //
+  //   for (var imageFile in personalImage) {
+  //     await postImage(imageFile).then((downloadUrl) {
+  //       PersonalImageUrl = downloadUrl.toString();
+  //     }).catchError((err) {
+  //       print(err);
+  //     });
+  //   }
+  //   // if(image.startsWith('gs://') || image.startsWith('http')){}
+  //   try {
+  //     await firebase_storage.FirebaseStorage.instance
+  //         .refFromURL(image)
+  //         .delete();
+  //   } catch (e) {
+  //     print('///////////////////////////////${e.toString()}');
+  //     if (e.toString() == '[firebase_storage/object-not-found]') {
+  //       for (var imageFile in personalImage) {
+  //         await postImage(imageFile).then((downloadUrl) {
+  //           PersonalImageUrl = downloadUrl.toString();
+  //         }).catchError((err) {
+  //           print(err);
+  //         });
+  //       }
+  //     }
+  //
+  //     await usersCollection.doc(userId).update({
+  //       'image': PersonalImageUrl,
+  //     }).then((value) {
+  //       setState(() {
+  //         personalImage = [];
+  //       });
+  //     });
+  //   }
+  //
+  //   await usersCollection.doc(userId).update({
+  //     'image': PersonalImageUrl,
+  //   }).then((value) {
+  //     setState(() {
+  //       personalImage = [];
+  //     });
+  //   });
+  // }
+  //
+  // Future<dynamic> postImage(Asset imageFile) async {
+  //   String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+  //   firebase_storage.Reference ref =
+  //       firebase_storage.FirebaseStorage.instance.ref().child(fileName);
+  //
+  //   UploadTask uploadTask =
+  //       ref.putData((await imageFile.getByteData()).buffer.asUint8List());
+  //   TaskSnapshot storageTaskSnapshot = await uploadTask;
+  //   return storageTaskSnapshot.ref.getDownloadURL();
+  // }
+  //
+  // final password = TextEditingController();
 
   @override
   void initState() {
@@ -145,24 +147,24 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                 )),
                           ],
                         ),
-                        Padding(
-                            padding: EdgeInsets.only(top: 90.0, right: 100.0),
-                            child: new Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                new CircleAvatar(
-                                  backgroundColor: Colors.white,
-                                  radius: 25.0,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.camera_alt,
-                                      color: Colors.black,
-                                    ),
-                                    onPressed: loadAssets1,
-                                  ),
-                                ),
-                              ],
-                            )),
+                        // Padding(
+                        //     padding: EdgeInsets.only(top: 90.0, right: 100.0),
+                        //     child: new Row(
+                        //       mainAxisAlignment: MainAxisAlignment.center,
+                        //       children: <Widget>[
+                        //         new CircleAvatar(
+                        //           backgroundColor: Colors.white,
+                        //           radius: 25.0,
+                        //           child: IconButton(
+                        //             icon: Icon(
+                        //               Icons.camera_alt,
+                        //               color: Colors.black,
+                        //             ),
+                        //             onPressed: loadAssets1,
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     )),
                       ]),
                     ),
                     Padding(
@@ -190,10 +192,18 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
           ListTileDrawer(
             icon: Icons.reorder_outlined,
-            listTileName: 'Trip Order',
+            listTileName: 'Profile',
             onPressed: () async{
 
-              Navigator.popAndPushNamed(context, profile.id);
+              Navigator.popAndPushNamed(context, Profile.id);
+
+            }         ,
+          ),ListTileDrawer(
+            icon: Icons.reorder_outlined,
+            listTileName: 'Order History',
+            onPressed: () async{
+
+              Navigator.popAndPushNamed(context, OrderHistory.id);
 
             }         ,
           ),
@@ -206,9 +216,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 if (mounted) {
                   setState(() {
                     name = null;
-                    userEmail = null;
+                    userEmail = '';
                     phone = null;
-                    image = null;
+                    image = '.';
                     userId = null;
                   });
                 }

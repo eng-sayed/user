@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tip_trip/screens/register.dart';
+import 'package:tip_trip/screens/reset_pass.dart';
 import 'package:tip_trip/screens/trips.dart';
 import 'package:tip_trip/widgets/snac.dart';
 
@@ -27,6 +28,13 @@ class _LoginState extends State<Login> {
         print('User is signed in!');
       }
     });
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -77,6 +85,7 @@ class _LoginState extends State<Login> {
                   //   height: 10,
                   // ),
                   TextFormField(
+                    keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       fillColor: Colors.grey[100],
                       filled: true,
@@ -95,6 +104,8 @@ class _LoginState extends State<Login> {
                   //   height: 10,
                   // ),
                   TextFormField(
+                    keyboardType: TextInputType.visiblePassword,
+
                     obscureText: true,
                     decoration: InputDecoration(
                       fillColor: Colors.grey[100],
@@ -167,9 +178,9 @@ class _LoginState extends State<Login> {
                                   // color: Colors.orangeAccent[400])),
                                   color: Color(0xFF2196F3))),
                           onPressed: () {
-                            Navigator.pushNamed(
+                            Navigator.pushReplacementNamed(
                                 context,
-                                Register.id);
+                                ResetPassword.id);
                           },
                         ),
                       ),
