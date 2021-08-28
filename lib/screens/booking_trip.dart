@@ -267,7 +267,7 @@ class _BookingTripState extends State<BookingTrip> {
                                       await usersCollection
                                           .doc(userId)
                                           .collection('orders trip')
-                                          .doc(FieldValue.serverTimestamp().)
+                                          .doc(formattedDatehour)
                                           .set({
                                         'name': nameController.text,
                                         'national id':
